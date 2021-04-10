@@ -1,0 +1,27 @@
+﻿  Actor.cpp
+  AnimSpriteComponent.cpp
+  BGSpriteComponent.cpp
+  Component.cpp
+  Game.cpp
+  Main.cpp
+  Math.cpp
+  Ship.cpp
+  SpriteComponent.cpp
+  Gerando código
+  Previous IPDB not found, fall back to full compilation.
+  All 715 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finalizada a geração de código
+  Game.vcxproj -> C:\Users\jcjul\Desktop\codigoShip\Chapter02\Release\Game.exe
+  C:\Users\jcjul\Desktop\codigoShip\Chapter02\\..\external\SDL\lib\win\x86\libfreetype-6.dll
+  C:\Users\jcjul\Desktop\codigoShip\Chapter02\\..\external\SDL\lib\win\x86\libogg-0.dll
+  C:\Users\jcjul\Desktop\codigoShip\Chapter02\\..\external\SDL\lib\win\x86\libpng16-16.dll
+  C:\Users\jcjul\Desktop\codigoShip\Chapter02\\..\external\SDL\lib\win\x86\libvorbis-0.dll
+  C:\Users\jcjul\Desktop\codigoShip\Chapter02\\..\external\SDL\lib\win\x86\libvorbisfile-3.dll
+  C:\Users\jcjul\Desktop\codigoShip\Chapter02\\..\external\SDL\lib\win\x86\SDL2.dll
+  C:\Users\jcjul\Desktop\codigoShip\Chapter02\\..\external\SDL\lib\win\x86\SDL2_image.dll
+  C:\Users\jcjul\Desktop\codigoShip\Chapter02\\..\external\SDL\lib\win\x86\SDL2_mixer.dll
+  C:\Users\jcjul\Desktop\codigoShip\Chapter02\\..\external\SDL\lib\win\x86\SDL2_ttf.dll
+  C:\Users\jcjul\Desktop\codigoShip\Chapter02\\..\external\SDL\lib\win\x86\zlib1.dll
+  10 arquivo(s) copiado(s)
+  C:\Users\jcjul\Desktop\codigoShip\Chapter02\\..\external\GLEW\lib\win\x86\glew32.dll
+  1 arquivo(s) copiado(s)
