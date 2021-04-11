@@ -29,7 +29,7 @@ Game::Game()
 	, canFreeze(false)
 	, Freezed(false)
 	, contKillsFreezed(0)
-	, score(8)
+	, score(0)
 	, GameOver(false)
 {
 	
