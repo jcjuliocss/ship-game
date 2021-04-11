@@ -12,13 +12,25 @@
 #include "Actor.h"
 #include "SpriteComponent.h"
 #include "Ship.h"
+#include "Enemy.h"
+#include "Laser.h"
+#include "Heart.h"
 #include "BGSpriteComponent.h"
+#include <Windows.h>
 
 Game::Game()
-:mWindow(nullptr)
-,mRenderer(nullptr)
-,mIsRunning(true)
-,mUpdatingActors(false)
+	:mWindow(nullptr)
+	, mRenderer(nullptr)
+	, mIsRunning(true)
+	, mUpdatingActors(false)
+	, mTicksCount(0)
+	, mShooting(false)
+	, lives(5)
+	, canFreeze(false)
+	, Freezed(false)
+	, contKillsFreezed(0)
+	, score(8)
+	, GameOver(false)
 {
 	
 }
@@ -89,6 +101,19 @@ void Game::ProcessInput()
 
 	// Process ship input
 	mShip->ProcessKeyboard(state);
+
+	if (state[SDL_SCANCODE_SPACE]) {
+		if (!mShooting) {
+			Shoot();
+		}
+	}
+
+	if (state[SDL_SCANCODE_LSHIFT]) {
+		Game::mShip->mNitro = 2.0f;
+	}
+	else {
+		Game::mShip->mNitro = 1.0f;
+	}
 }
 
 void Game::UpdateGame()
@@ -135,6 +160,156 @@ void Game::UpdateGame()
 	{
 		delete actor;
 	}
+
+	//colisao da nave com o inimigo
+	Vector2 shipPos = mShip->GetPosition();
+	for (auto enemy : mEnemies) {
+		Vector2 enemyPos = enemy->GetPosition();
+		float diffy = abs(shipPos.y - enemyPos.y);
+		float diffx = abs(shipPos.x - enemyPos.x);
+		if (diffy <= 50.0f && diffx <= 81.0f) {
+			RemoveLive();
+			AddEnemies(1);
+			enemy->~Enemy();
+		}
+	}
+
+	//colisao do tiro com o inimigo
+	if (mShooting) {
+		Vector2 shootPos = mLaser->GetPosition();
+		for (auto enemy : mEnemies) {
+			Vector2 enemyPos = enemy->GetPosition();
+			bool xCollision = shootPos.x >= enemyPos.x;
+			bool yCollision = (shootPos.y >= enemyPos.y - 40.0f && shootPos.y <= enemyPos.y + 40.0f);
+			if (xCollision && yCollision) {
+				score++;
+				mShooting = false;
+				mLaser->Kill();
+				if (!Freezed) {
+					AddEnemies(1);
+				}
+				else {
+					contKillsFreezed++;
+					if (contKillsFreezed == 2) {
+						Freezed = false;
+						canFreeze = false;
+						AddEnemies(2);
+						FreezeUnfreeze();
+						contKillsFreezed = 0;
+					}
+				}
+				enemy->~Enemy();
+			}
+		}
+	}
+
+	if (score > 0 && score % 10 == 0) {
+		FreezeUnfreeze();
+	}
+
+	if (lives <= 0) {
+		GameOver = true;
+	}
+
+	if (score > 0 && score % 10 == 0) {
+		canFreeze = true;
+	}
+}
+
+void Game::RemoveLive() {
+	lives--;
+	Heart* heart = mHearts.back();
+	heart->~Heart();
+}
+
+void Game::Shoot() {
+	mLaser = new Laser(this);
+	Vector2 pos = mShip->GetPosition();
+	mLaser->SetPosition(Vector2(pos.x + 25.0f, pos.y));
+	mLaser->SetScale(1.5f);
+	mShooting = true;
+}
+
+void Game::DrawScore(int score, int pos_x) {
+	int ttfResult = TTF_Init();
+
+	TTF_Font* font = TTF_OpenFont("arial.ttf", 18); // define fonte do score
+	SDL_Color color = { 255, 255, 255 }; // define a cor do score
+
+	// cria a superficie e renderiza o texto
+	SDL_Surface* scoreSurface = TTF_RenderText_Solid(font, std::to_string(score).c_str(), color);
+
+	// log de possiveis erros
+	if (scoreSurface == NULL) {
+		SDL_Log("Failed to create surface: %s", SDL_GetError());
+	}
+	else {
+		int width = 100;
+		int heigth = 100;
+		// cria a textura com o score a partir dos pixels da superficie
+		SDL_Texture* scoreTexture = SDL_CreateTextureFromSurface(mRenderer, scoreSurface);
+		if (scoreTexture == NULL) {
+			SDL_Log("Failed to create texture: %s", SDL_GetError());
+		}
+		else {
+			//passa fonte, dimensoes(WxH) e o score para servir de texto e sua posicao na tela
+			TTF_SizeText(font, std::to_string(score).c_str(), &width, &heigth);
+		}
+		// depois de definida a textura, pode descartar a superficie
+		SDL_FreeSurface(scoreSurface);
+		// cria o retangulo para exibir o score
+		SDL_Rect scoreRect{
+			static_cast<int>(pos_x), // exibe score no meio da tela horizontalmente
+			50, // coloca o score no topo da tela
+			width, // largura do tamanho do score
+			heigth // altura do tamanho do score
+		};
+		// renderiza a textura no retangulo
+		SDL_RenderCopy(mRenderer, scoreTexture, NULL, &scoreRect);
+		// agora que já renderizou a textura, destruimos o texto ate a proxima atualizacao
+		SDL_DestroyTexture(scoreTexture);
+	}
+}
+
+void Game::DrawGameOver() {
+	int ttfResult = TTF_Init();
+
+	TTF_Font* font = TTF_OpenFont("arial.ttf", 25);
+	SDL_Color color = { 255, 255, 255 };
+
+	char texto[512] = { 0 };
+	SDL_snprintf(texto, 512, "Pontuacao: %d...Pressione ESC para sair.", score);
+
+	SDL_Surface* scoreSurface = TTF_RenderText_Solid(font, texto, color);
+
+	// log de possiveis erros
+	if (scoreSurface == NULL) {
+		SDL_Log("Failed to create surface: %s", SDL_GetError());
+	}
+	else {
+		int width = 400;
+		int heigth = 75;
+
+		SDL_Texture* scoreTexture = SDL_CreateTextureFromSurface(mRenderer, scoreSurface);
+		if (scoreTexture == NULL) {
+			SDL_Log("Failed to create texture: %s", SDL_GetError());
+		}
+		else {
+			TTF_SizeText(font, std::to_string(score).c_str(), &width, &heigth);
+		}
+
+		SDL_FreeSurface(scoreSurface);
+
+		SDL_Rect scoreRect{
+			1024.0f / 3,
+			768.0f / 2,
+			400,
+			75
+		};
+
+		SDL_RenderCopy(mRenderer, scoreTexture, NULL, &scoreRect);
+		SDL_DestroyTexture(scoreTexture);
+	}
 }
 
 void Game::GenerateOutput()
@@ -148,7 +323,22 @@ void Game::GenerateOutput()
 		sprite->Draw(mRenderer);
 	}
 
+	DrawScore(score, 1024 / 2);
+
+	if (GameOver) {
+		DrawGameOver();
+		FreezeAllActors();
+	}
+
 	SDL_RenderPresent(mRenderer);
+}
+
+void Game::AddEnemies(int numEnemies) {
+	const int kNumEnemies = numEnemies;
+	for (int i = 0; i < kNumEnemies; i++)
+	{
+		new Enemy(this);
+	}
 }
 
 void Game::LoadData()
@@ -157,6 +347,10 @@ void Game::LoadData()
 	mShip = new Ship(this);
 	mShip->SetPosition(Vector2(100.0f, 384.0f));
 	mShip->SetScale(1.5f);
+
+	AddEnemies(4);
+
+	AddLives();
 
 	//--------------------------------Criação do background----------------------------
 	// Create actor for the background (this doesn't need a subclass)
@@ -188,6 +382,13 @@ void Game::LoadData()
 	bg->SetScrollSpeed(-200.0f);
 }
 
+void Game::AddLives() {
+	for (int i = 0; i < lives; i++)
+	{
+		new Heart(this, (float)(i * 30.0f + 50.0f));
+	}
+}
+
 void Game::UnloadData()
 {
 	// Delete actors
@@ -203,6 +404,54 @@ void Game::UnloadData()
 		SDL_DestroyTexture(i.second);
 	}
 	mTextures.clear();
+}
+
+void Game::FreezeUnfreeze() {
+	if (canFreeze) {
+		Freezed = true;
+		canFreeze = false;
+		FreezeAllActors();
+		mShip->SetState(Actor::EActive);
+		mLaser->SetState(Actor::EActive);
+	}
+	else {
+		for (auto actor : mActors)
+		{
+			actor->SetState(Actor::EActive);
+		}
+		mLaser->Kill();
+	}	
+}
+
+void Game::FreezeAllActors() {
+	for (auto actor : mActors)
+	{
+		actor->SetState(Actor::EPaused);
+	}
+}
+
+void Game::AddEnemy(Enemy* enemy) {
+	mEnemies.emplace_back(enemy);
+}
+
+void Game::RemoveEnemy(Enemy* enemy) {
+	auto iter = std::find(mEnemies.begin(), mEnemies.end(), enemy);
+	if (iter != mEnemies.end())
+	{
+		mEnemies.erase(iter);
+	}
+}
+
+void Game::AddHeart(Heart* heart) {
+	mHearts.emplace_back(heart);
+}
+
+void Game::RemoveHeart(Heart* heart) {
+	auto iter = std::find(mHearts.begin(), mHearts.end(), heart);
+	if (iter != mHearts.end())
+	{
+		mHearts.erase(iter);
+	}
 }
 
 // =load the textures
@@ -246,6 +495,7 @@ void Game::Shutdown()
 	SDL_DestroyRenderer(mRenderer);
 	SDL_DestroyWindow(mWindow);
 	SDL_Quit();
+	TTF_Quit();
 }
 
 //add actors

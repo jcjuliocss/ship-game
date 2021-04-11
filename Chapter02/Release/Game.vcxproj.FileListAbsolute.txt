@@ -1,1 +1,2 @@
 C:\Users\jcjul\Desktop\codigoShip\Chapter02\Release\Game.exe
+C:\Users\jcjul\Desktop\Repositorios github\ship-game\Chapter02\Release\Game.exe

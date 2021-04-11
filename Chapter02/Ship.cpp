@@ -14,6 +14,7 @@ Ship::Ship(Game* game)
 	:Actor(game)
 	,mRightSpeed(0.0f)
 	,mDownSpeed(0.0f)
+	,mNitro(1.0f)
 {
 	// Create an animated sprite component for the Ship using images of the project
 	AnimSpriteComponent* asc = new AnimSpriteComponent(this);
@@ -63,21 +64,21 @@ void Ship::ProcessKeyboard(const uint8_t* state)
 	mRightSpeed = 0.0f;
 	mDownSpeed = 0.0f;
 	// right/left
-	if (state[SDL_SCANCODE_D])
+	if (state[SDL_SCANCODE_D] || state[SDL_SCANCODE_RIGHT])
 	{
-		mRightSpeed += 250.0f;
+		mRightSpeed += 250.0f * mNitro;
 	}
-	if (state[SDL_SCANCODE_A])
+	if (state[SDL_SCANCODE_A] || state[SDL_SCANCODE_LEFT])
 	{
-		mRightSpeed -= 250.0f;
+		mRightSpeed -= 250.0f * mNitro;
 	}
 	// up/down
-	if (state[SDL_SCANCODE_S])
+	if (state[SDL_SCANCODE_S] || state[SDL_SCANCODE_DOWN])
 	{
-		mDownSpeed += 300.0f;
+		mDownSpeed += 300.0f * mNitro;
 	}
-	if (state[SDL_SCANCODE_W])
+	if (state[SDL_SCANCODE_W] || state[SDL_SCANCODE_UP])
 	{
-		mDownSpeed -= 300.0f;
+		mDownSpeed -= 300.0f * mNitro;
 	}
 }
