@@ -49,6 +49,7 @@ void Enemy::UpdateActor(float deltaTime)
 	}
 	else {
 		pos.x -= mSpeed;
+		pos.y -= 1;
 	}
 
 	SetPosition(pos);
