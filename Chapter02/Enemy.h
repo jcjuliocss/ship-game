@@ -14,6 +14,9 @@ public:
 	Enemy(class Game* game);
 	~Enemy();
 	void UpdateActor(float deltaTime) override;
+	float initialYPos;
 	float mSpeed;
+	float verticalDirection;
+	float qtdMovimentacao;
 private:
 };

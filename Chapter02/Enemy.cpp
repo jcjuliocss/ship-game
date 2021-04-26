@@ -13,8 +13,12 @@
 Enemy::Enemy(Game* game)
 	:Actor(game)
 	, mSpeed(4.0f)
+	, verticalDirection(1)
+	, qtdMovimentacao(0.0f)
 {
-	SetPosition(Vector2((float)(rand() % 300 + 1024), (float)(rand() % 718 + 30)));
+	float initialY = (float)(rand() % 718 + 30);
+	SetPosition(Vector2((float)(rand() % 300 + 1024), initialY));
+	initialYPos = initialY;
 
 	AnimSpriteComponent* asc = new AnimSpriteComponent(this);
 	std::vector<SDL_Texture*> anims = {
@@ -35,7 +39,6 @@ Enemy::~Enemy() {
 	GetGame()->RemoveEnemy(this);
 }
 
-
 void Enemy::UpdateActor(float deltaTime)
 {
 	Actor::UpdateActor(deltaTime);
@@ -49,6 +52,29 @@ void Enemy::UpdateActor(float deltaTime)
 	}
 	else {
 		pos.x -= mSpeed;
+
+		if (qtdMovimentacao < 100.0f) {
+			verticalDirection = 1.0f;
+		}
+		else if(qtdMovimentacao > 100.0f && qtdMovimentacao < 200.0f) {
+			verticalDirection = -1.0f;
+		}
+		else if (qtdMovimentacao >= 200.0f) {
+			qtdMovimentacao = 0.0f;
+		}
+
+		pos.y += mSpeed * verticalDirection;
+
+		if (pos.y < 25.0f)
+		{
+			pos.y = 25.0f;
+		}
+		else if (pos.y > 743.0f)
+		{
+			pos.y = 743.0f;
+		}
+
+		qtdMovimentacao += mSpeed/2.0f;
 	}
 
 	SetPosition(pos);

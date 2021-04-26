@@ -1,20 +1,31 @@
 ﻿  Actor.cpp
   AnimSpriteComponent.cpp
   BGSpriteComponent.cpp
+  Component.cpp
+  Enemy.cpp
+  Game.cpp
+C:\Users\jcjul\Desktop\Repositorios github\ship-game\Chapter02\Game.cpp(304,12): warning C4838: a conversão de 'float' em 'int' requer uma conversão de restrição
+C:\Users\jcjul\Desktop\Repositorios github\ship-game\Chapter02\Game.cpp(304,12): warning C4244: 'inicializando': conversão de 'float' para 'int', possível perda de dados
+C:\Users\jcjul\Desktop\Repositorios github\ship-game\Chapter02\Game.cpp(305,11): warning C4838: a conversão de 'float' em 'int' requer uma conversão de restrição
+C:\Users\jcjul\Desktop\Repositorios github\ship-game\Chapter02\Game.cpp(305,11): warning C4244: 'inicializando': conversão de 'float' para 'int', possível perda de dados
+  Heart.cpp
+  Laser.cpp
   Main.cpp
+  Math.cpp
+  Ship.cpp
   SpriteComponent.cpp
   Gerando Código...
-  Game.vcxproj -> C:\Users\belmo\Google Drive\Materiais_FEI\FEI-12021\games\aulas_minhas\1-2021\semana7_graficos2D_Insercao_de_Sprites\lab-ModificacaoShip\codigoShip\Chapter02\Debug\Game.exe
-  C:\Users\belmo\Google Drive\Materiais_FEI\FEI-12021\games\aulas_minhas\1-2021\semana7_graficos2D_Insercao_de_Sprites\lab-ModificacaoShip\codigoShip\Chapter02\\..\external\SDL\lib\win\x86\libfreetype-6.dll
-  C:\Users\belmo\Google Drive\Materiais_FEI\FEI-12021\games\aulas_minhas\1-2021\semana7_graficos2D_Insercao_de_Sprites\lab-ModificacaoShip\codigoShip\Chapter02\\..\external\SDL\lib\win\x86\libogg-0.dll
-  C:\Users\belmo\Google Drive\Materiais_FEI\FEI-12021\games\aulas_minhas\1-2021\semana7_graficos2D_Insercao_de_Sprites\lab-ModificacaoShip\codigoShip\Chapter02\\..\external\SDL\lib\win\x86\libpng16-16.dll
-  C:\Users\belmo\Google Drive\Materiais_FEI\FEI-12021\games\aulas_minhas\1-2021\semana7_graficos2D_Insercao_de_Sprites\lab-ModificacaoShip\codigoShip\Chapter02\\..\external\SDL\lib\win\x86\libvorbis-0.dll
-  C:\Users\belmo\Google Drive\Materiais_FEI\FEI-12021\games\aulas_minhas\1-2021\semana7_graficos2D_Insercao_de_Sprites\lab-ModificacaoShip\codigoShip\Chapter02\\..\external\SDL\lib\win\x86\libvorbisfile-3.dll
-  C:\Users\belmo\Google Drive\Materiais_FEI\FEI-12021\games\aulas_minhas\1-2021\semana7_graficos2D_Insercao_de_Sprites\lab-ModificacaoShip\codigoShip\Chapter02\\..\external\SDL\lib\win\x86\SDL2.dll
-  C:\Users\belmo\Google Drive\Materiais_FEI\FEI-12021\games\aulas_minhas\1-2021\semana7_graficos2D_Insercao_de_Sprites\lab-ModificacaoShip\codigoShip\Chapter02\\..\external\SDL\lib\win\x86\SDL2_image.dll
-  C:\Users\belmo\Google Drive\Materiais_FEI\FEI-12021\games\aulas_minhas\1-2021\semana7_graficos2D_Insercao_de_Sprites\lab-ModificacaoShip\codigoShip\Chapter02\\..\external\SDL\lib\win\x86\SDL2_mixer.dll
-  C:\Users\belmo\Google Drive\Materiais_FEI\FEI-12021\games\aulas_minhas\1-2021\semana7_graficos2D_Insercao_de_Sprites\lab-ModificacaoShip\codigoShip\Chapter02\\..\external\SDL\lib\win\x86\SDL2_ttf.dll
-  C:\Users\belmo\Google Drive\Materiais_FEI\FEI-12021\games\aulas_minhas\1-2021\semana7_graficos2D_Insercao_de_Sprites\lab-ModificacaoShip\codigoShip\Chapter02\\..\external\SDL\lib\win\x86\zlib1.dll
+  Game.vcxproj -> C:\Users\jcjul\Desktop\Repositorios github\ship-game\Chapter02\Debug\Game.exe
+  C:\Users\jcjul\Desktop\Repositorios github\ship-game\Chapter02\\..\external\SDL\lib\win\x86\libfreetype-6.dll
+  C:\Users\jcjul\Desktop\Repositorios github\ship-game\Chapter02\\..\external\SDL\lib\win\x86\libogg-0.dll
+  C:\Users\jcjul\Desktop\Repositorios github\ship-game\Chapter02\\..\external\SDL\lib\win\x86\libpng16-16.dll
+  C:\Users\jcjul\Desktop\Repositorios github\ship-game\Chapter02\\..\external\SDL\lib\win\x86\libvorbis-0.dll
+  C:\Users\jcjul\Desktop\Repositorios github\ship-game\Chapter02\\..\external\SDL\lib\win\x86\libvorbisfile-3.dll
+  C:\Users\jcjul\Desktop\Repositorios github\ship-game\Chapter02\\..\external\SDL\lib\win\x86\SDL2.dll
+  C:\Users\jcjul\Desktop\Repositorios github\ship-game\Chapter02\\..\external\SDL\lib\win\x86\SDL2_image.dll
+  C:\Users\jcjul\Desktop\Repositorios github\ship-game\Chapter02\\..\external\SDL\lib\win\x86\SDL2_mixer.dll
+  C:\Users\jcjul\Desktop\Repositorios github\ship-game\Chapter02\\..\external\SDL\lib\win\x86\SDL2_ttf.dll
+  C:\Users\jcjul\Desktop\Repositorios github\ship-game\Chapter02\\..\external\SDL\lib\win\x86\zlib1.dll
   10 arquivo(s) copiado(s)
-  C:\Users\belmo\Google Drive\Materiais_FEI\FEI-12021\games\aulas_minhas\1-2021\semana7_graficos2D_Insercao_de_Sprites\lab-ModificacaoShip\codigoShip\Chapter02\\..\external\GLEW\lib\win\x86\glew32.dll
+  C:\Users\jcjul\Desktop\Repositorios github\ship-game\Chapter02\\..\external\GLEW\lib\win\x86\glew32.dll
   1 arquivo(s) copiado(s)

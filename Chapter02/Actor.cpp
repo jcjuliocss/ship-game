@@ -51,6 +51,7 @@ void Actor::UpdateComponents(float deltaTime)//atualiza os componentes do ator
 
 void Actor::UpdateActor(float deltaTime)//declaração da função de atualização do ator
 {
+
 }
 
 void Actor::AddComponent(Component* component)//função para adicionar um componentes
